@@ -106,8 +106,12 @@ def find_wfo_all_id(name='Pinus sylvestris') -> list[str]:
 
 
 def find_wfo_id(name='Pinus sylvestris') -> str:
-    # if 
-    return find_wfo_all_id(name)[0]
+    tmp = ''
+    try: 
+        tmp = find_wfo_all_id(name)[0]
+    except IndexError as ie: 
+        print('\tempty.')
+    return tmp 
 
 
 def get_detail(id): 
@@ -161,8 +165,9 @@ def get_by_name(name):
     if len(wfoid) == 0:
         print('empty wfo id.')
         return (name, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A')
+    
     detail = get_detail(wfoid)
-
+    
     text = BeautifulSoup(detail, features='html.parser').get_text()
 
     text = text.replace('\t', ' ').lower()
